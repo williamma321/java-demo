@@ -57,8 +57,33 @@ public class Main {
 
                 }
                 case "3" -> {
-                    System.out.println(" Will enter withdraw amount ");
-                    System.out.println(" Need to implement the withdraw amount ");
+                    String user_withdraw_Amount = "";
+                    double user_withdrawAmt = 0;
+                    System.out.print(" Please enter withdrawal amount -->$");
+                    user_withdraw_Amount = de_amount_input.nextLine();
+                    try {
+                        user_withdrawAmt = Double.parseDouble(user_withdraw_Amount);
+                    } catch (NumberFormatException e) {
+                        System.out.println(" Please enter a correct number value!!");
+                        user_withdrawAmt = 0;
+                    }
+                    if (user_withdrawAmt > 0) {
+                        if (currentBankAcc.Account_Balance < user_withdrawAmt){
+                            System.out.println("  Sorry, your account don't have enough to withdrawn");
+                            System.out.print(" Your Current balance is $");
+                            System.out.printf(numeric_formating, currentBankAcc.Account_Balance);
+                            System.out.println();
+                        }
+                        else {
+                            currentBankAcc.withdraw(user_withdrawAmt);
+                            System.out.print(" You account now withdraw amount $" + user_withdraw_Amount + "\n");
+                            System.out.print(" You current balance is $");
+                            System.out.printf(numeric_formating, currentBankAcc.Account_Balance);
+                            System.out.println();
+                        }
+                    } else {
+                        System.out.println(" Please enter a number more than $0 !!");
+                    }
                 }
                 case "4" -> {
                     System.out.println(" Thank you for using the bank demo app, exiting. ");
