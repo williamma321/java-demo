@@ -1,29 +1,60 @@
 package org.demo.bankapp;
 
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        String cont = "5";
-        while(!cont.equals("4")){
-            System.out.print("************Welcome to Demo Bank App*****************\n\n");
-            System.out.print("********  Please type in the follow selection *******\n\n");
-            System.out.print("           1.  For account balance - Enter - 1       \n");
-            System.out.print("           2.  To  deposit         - Enter - 2       \n");
-            System.out.print("           3.  To  withdraw        - Enter - 3       \n");
-            System.out.print("        To Exit the application    - Enter - 4       \n\n");
-            System.out.print("+++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
-            System.out.print(" Please enter your selection (1, 2, 3, 4) -->");
-            cont = input.nextLine();
-            switch (cont) {
+
+        Scanner action_input = new Scanner(System.in);
+        Scanner de_amount_input = new Scanner(System.in);
+        Scanner withdraw_amount = new Scanner(System.in);
+        BankAccounts currentBankAcc = new BankAccounts(0);
+        ScreenMenu current_ScreenMenu = new ScreenMenu();
+        String numeric_formating = "%-100.2f";
+        String action_Selection = "5";
+        while(!action_Selection.equals("4")){
+            if (currentBankAcc.Account_Balance == 0 ) {
+                System.out.print(current_ScreenMenu.menu_text + current_ScreenMenu.menu_text2);
+            } else {
+                System.out.print(current_ScreenMenu.menu_text);
+                System.out.print("   Current Balance is Now:  $");
+                System.out.printf(numeric_formating,currentBankAcc.Account_Balance);
+                System.out.println( "\n" );
+                System.out.print(current_ScreenMenu.menu_text2);
+            }
+            action_Selection = action_input.nextLine();
+            switch (action_Selection) {
                 case "1" -> {
                     System.out.println(" Showing Bank account balance information");
-                    System.out.println(" Need to implement the method and actions for showing account balance");
+                    String myBalance = String.valueOf(currentBankAcc.Account_Balance);
+                    System.out.print(" Your Balance is now -->  $");
+                    System.out.printf( numeric_formating, currentBankAcc.Account_Balance);
+                    System.out.println();
                 }
                 case "2" -> {
-                    System.out.println(" Will enter deposit amount ");
-                    System.out.println(" Need to implement the deposit amount ");
+                    String user_Deposit_Amount = "";
+                    double f_user_depositAmt = 0;
+                    System.out.print(" Please enter deposit amount -->$");
+                    user_Deposit_Amount = de_amount_input.nextLine();
+                    try {
+                        f_user_depositAmt = Double.parseDouble(user_Deposit_Amount);
+                    } catch (NumberFormatException e) {
+                        System.out.println(" Please enter a correct number value!!");
+                        f_user_depositAmt = 0;
+                    }
+                    if ( f_user_depositAmt > 0) {
+                        currentBankAcc.deposit(f_user_depositAmt);
+                        System.out.print(" Deposited Amount of " );
+                        System.out.printf(numeric_formating, f_user_depositAmt);
+                        System.out.println();
+                        System.out.print(" The account balance is now -- >  $");
+                        System.out.printf(numeric_formating, currentBankAcc.Account_Balance);
+                        System.out.println();
+                    }else {
+                        System.out.println(" Please enter a number more than $0 !!");
+                    }
+
                 }
                 case "3" -> {
                     System.out.println(" Will enter withdraw amount ");
